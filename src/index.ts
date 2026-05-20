@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
-import cron from 'node-cron';
 
 dotenv.config();
 
@@ -29,17 +28,9 @@ async function sendEmail(): Promise<void> {
 
         console.log('Email sent:', info.response);
     } catch (error) {
-        console.error('Failed to send email:', error);
+        console.error(error);
+        process.exit(1);
     }
 }
 
-// Send immediately when app starts
 sendEmail();
-
-// Run every 12 hours
-cron.schedule('0 */6 * * *', () => {
-    console.log('Running scheduled email job...');
-    sendEmail();
-});
-
-console.log('Automation is running...');
